@@ -3,6 +3,7 @@ package com.example.ProjectTestMySql.model.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -20,4 +21,12 @@ public class Group {
 
     @Field(name = "user_id")
     Long userId;
+
+    @PersistenceCreator
+    public Group(Long id, String name, GroupType groupType, Long userId) {
+        this.id = id;
+        this.name = name;
+        this.groupType = groupType;
+        this.userId = userId;
+    }
 }

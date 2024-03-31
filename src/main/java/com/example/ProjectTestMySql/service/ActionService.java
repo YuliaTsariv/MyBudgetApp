@@ -7,6 +7,7 @@ import com.example.ProjectTestMySql.model.entity.ActionType;
 import com.example.ProjectTestMySql.model.entity.Budget;
 import com.example.ProjectTestMySql.repository.ActionRepository;
 import com.example.ProjectTestMySql.repository.BudgetRepository;
+import com.example.ProjectTestMySql.util.RandomGenerator;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +25,17 @@ public class ActionService {
     ActionRepository actionRepository;
     BudgetRepository budgetRepository;
     BudgetService budgetService;
-    Random random = new Random();
+    RandomGenerator randomGenerator;
 
     public Action createAction(ActionPayload actionPayload) {
         var dateTime = actionPayload.getDateTime().toString();
         var action = ActionMapper.INSTANCE.toAction(actionPayload, dateTime);
+        handleUpdatingBudget(actionPayload);
+        action.setId(randomGenerator.randomlyGenerateId());
+        return actionRepository.save(action);
+    }
+
+    private void handleUpdatingBudget(ActionPayload actionPayload) {
         Optional<Budget> existingBudget = budgetRepository.findByUserId(actionPayload.getUserId());
         if (existingBudget.isPresent()) {
             Budget budget = existingBudget.get();
@@ -38,9 +44,6 @@ public class ActionService {
         } else {
             budgetService.saveBudget(new Budget(actionPayload.getUserId(), BigDecimal.ONE));
         }
-        var id = random.nextLong();
-        action.setId(id);
-        return actionRepository.save(action);
     }
 
     private BigDecimal getNewBalance(ActionPayload actionPayload, Budget budget) {

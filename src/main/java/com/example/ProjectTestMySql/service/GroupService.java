@@ -2,6 +2,7 @@ package com.example.ProjectTestMySql.service;
 
 import com.example.ProjectTestMySql.mapper.GroupMapper;
 import com.example.ProjectTestMySql.model.dto.GroupPayload;
+import com.example.ProjectTestMySql.model.entity.GroupType;
 import com.example.ProjectTestMySql.repository.GroupRepository;
 import com.example.ProjectTestMySql.util.RandomGenerator;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -20,11 +23,15 @@ public class GroupService {
     GroupRepository groupRepository;
     RandomGenerator randomGenerator;
 
-    public GroupPayload saveGroup(GroupPayload groupPayload) {
+    public void saveGroup(GroupPayload groupPayload) {
         var group = GroupMapper.INSTANCE.toGroup(groupPayload);
         group.setId(randomGenerator.randomlyGenerateId());
         groupRepository.save(group);
-        return GroupMapper.INSTANCE.toGroupPayload(group);
+    }
+
+    public List<GroupPayload> searchGroups(Long userId) {
+        var groups = groupRepository.findByUserIdOrGroupType(userId, GroupType.PLATFORM);
+        return groups.stream().map(GroupMapper.INSTANCE::toGroupPayload).toList();
     }
 
     @Transactional

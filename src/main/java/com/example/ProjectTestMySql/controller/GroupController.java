@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.example.ProjectTestMySql.controller.ActionController.API;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
@@ -18,12 +20,16 @@ public class GroupController {
     public static final String GROUP = "/group";
     private final GroupService groupService;
 
+    @GetMapping(GROUP)
+    public ResponseEntity<List<GroupPayload>> searchCriteria(@RequestParam Long userId) {
+        return ResponseEntity.ok(groupService.searchGroups(userId));
+    }
 
     @PostMapping(GROUP)
-    public ResponseEntity<GroupPayload> saveGroup(@RequestBody GroupPayload groupPayload) {
+    public ResponseEntity<Void> saveGroup(@RequestBody GroupPayload groupPayload) {
         log.info("Handle adding group request: " + groupPayload);
-        var group = groupService.saveGroup(groupPayload);
-        return ResponseEntity.ok(group);
+        groupService.saveGroup(groupPayload);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping(GROUP)

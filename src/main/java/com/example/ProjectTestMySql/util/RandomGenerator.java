@@ -8,6 +8,6 @@ import java.util.Random;
 public class RandomGenerator {
     Random random = new Random();
     public Long randomlyGenerateId(){
-        return random.nextLong();
+        return Math.abs(random.nextLong());
     }
 }
