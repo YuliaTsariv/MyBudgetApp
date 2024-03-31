@@ -21,7 +21,8 @@ public class ActionService {
     Random random = new Random();
 
     public Action createAction(ActionPayload actionPayload) {
-        var action = ActionMapper.INSTANCE.toAction(actionPayload);
+        var dateTime = actionPayload.getDateTime().toString();
+        var action = ActionMapper.INSTANCE.toAction(actionPayload, dateTime);
         actionRepository.count();
         var id = random.nextLong();
         action.setId(id);
