@@ -1,11 +1,12 @@
 package com.example.ProjectTestMySql.model.entity;
 
-import lombok.Data;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Data
+@Setter
 @Document(collation = "action")
 public class Action {
     @Id
@@ -23,11 +24,11 @@ public class Action {
     @Field(name = "group_name")
     String groupName;
 
-//    @PersistenceCreator
-//    public Action(Long id, ActionType type, Long userId, String groupName) {
-//        this.id = id;
-//        this.type = type;
-//        this.userId = userId;
-//        this.groupName = groupName;
-//    }
+    @PersistenceCreator
+    public Action(Long id, ActionType type, Long userId, String groupName) {
+        this.id = id;
+        this.type = type;
+        this.userId = userId;
+        this.groupName = groupName;
+    }
 }

@@ -25,7 +25,6 @@ public class ActionService {
         actionRepository.count();
         var id = random.nextLong();
         action.setId(id);
-        System.out.println("we here");
         return actionRepository.save(action);
     }
 }
