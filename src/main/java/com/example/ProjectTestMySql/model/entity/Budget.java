@@ -6,12 +6,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Setter
-@Document(collation = "myBudget")
-public class MyBudget {
-    @Id
-    private Long id;
+import java.math.BigDecimal;
 
-    @Field(name = "total_weight_id")
-    private Integer totalWeight;
+@Setter
+@Document(collection = "budget")
+public class Budget {
+    @Id
+    private Long userId;
+
+    @Field(name = "account")
+    private BigDecimal account;
 }

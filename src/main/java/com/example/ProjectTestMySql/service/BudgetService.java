@@ -1,7 +1,7 @@
 package com.example.ProjectTestMySql.service;
 
-import com.example.ProjectTestMySql.model.entity.MyBudget;
-import com.example.ProjectTestMySql.repository.OrderRepository;
+import com.example.ProjectTestMySql.model.entity.Budget;
+import com.example.ProjectTestMySql.repository.BudgetRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class OrderService {
+public class BudgetService {
 
-    OrderRepository orderRepository;
+    BudgetRepository budgetRepository;
 
-    public void createBudget(MyBudget myBudget){
-        orderRepository.save(myBudget);
+    public void createBudget(Budget myBudget){
+        budgetRepository.save(myBudget);
     }
 }
