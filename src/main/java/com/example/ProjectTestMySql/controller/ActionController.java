@@ -8,13 +8,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.ProjectTestMySql.controller.BudgetController.API;
+import static com.example.ProjectTestMySql.controller.ActionController.API;
+
 
 @RequestMapping(API)
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class ActionController {
+    public static final String API = "/api/budget";
+
     private final ActionService actionService;
 
     public static final String ACTION = "/action";

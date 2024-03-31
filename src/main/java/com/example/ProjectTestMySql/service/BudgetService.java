@@ -16,7 +16,11 @@ public class BudgetService {
 
     BudgetRepository budgetRepository;
 
-    public void createBudget(Budget myBudget){
+    public void saveBudget(Budget myBudget){
+        budgetRepository.save(myBudget);
+    }
+
+    public void updateBudget(Budget myBudget){
         budgetRepository.save(myBudget);
     }
 }

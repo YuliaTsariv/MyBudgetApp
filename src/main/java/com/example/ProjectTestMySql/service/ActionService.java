@@ -3,6 +3,7 @@ package com.example.ProjectTestMySql.service;
 import com.example.ProjectTestMySql.mapper.ActionMapper;
 import com.example.ProjectTestMySql.model.dto.ActionPayload;
 import com.example.ProjectTestMySql.model.entity.Action;
+import com.example.ProjectTestMySql.model.entity.ActionType;
 import com.example.ProjectTestMySql.model.entity.Budget;
 import com.example.ProjectTestMySql.repository.ActionRepository;
 import com.example.ProjectTestMySql.repository.BudgetRepository;
@@ -23,6 +24,7 @@ import java.util.Random;
 public class ActionService {
     ActionRepository actionRepository;
     BudgetRepository budgetRepository;
+    BudgetService budgetService;
     Random random = new Random();
 
     public Action createAction(ActionPayload actionPayload) {
@@ -31,16 +33,22 @@ public class ActionService {
         Optional<Budget> existingBudget = budgetRepository.findByUserId(actionPayload.getUserId());
         if (existingBudget.isPresent()) {
             Budget budget = existingBudget.get();
-            budget.setAccount(BigDecimal.TEN);
-            budgetRepository.save(budget);
+            budget.setAccount(getNewBalance(actionPayload, budget));
+            budgetService.saveBudget(budget);
         } else {
-            Budget newBudget = new Budget();
-            newBudget.setUserId(actionPayload.getUserId());
-            newBudget.setAccount(BigDecimal.ONE);
-            budgetRepository.save(newBudget);
+            budgetService.saveBudget(new Budget(actionPayload.getUserId(), BigDecimal.ONE));
         }
         var id = random.nextLong();
         action.setId(id);
         return actionRepository.save(action);
+    }
+
+    private BigDecimal getNewBalance(ActionPayload actionPayload, Budget budget) {
+        var actionType = actionPayload.getType();
+        if (actionType.equals(ActionType.EXPENSES)) {
+            return budget.getAccount().subtract(actionPayload.getAmountOfMoney());
+        } else {
+            return budget.getAccount().add(actionPayload.getAmountOfMoney());
+        }
     }
 }
