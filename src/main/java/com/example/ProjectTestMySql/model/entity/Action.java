@@ -8,6 +8,8 @@ import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.math.BigDecimal;
+
 @ToString
 @Setter
 @Getter
@@ -22,8 +24,11 @@ public class Action {
     @Field(name = "user_id")
     Long userId;
 
-    @Field(name = "dateTime")
+    @Field(name = "date_time")
     String dateTime;
+
+    @Field(name = "amount_of_money")
+    BigDecimal amountOfMoney;
 
     @Field(name = "group_name")
     String groupName;
