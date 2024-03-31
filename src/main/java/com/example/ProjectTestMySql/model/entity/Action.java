@@ -1,5 +1,6 @@
 package com.example.ProjectTestMySql.model.entity;
 
+import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @ToString
 @Setter
+@Getter
 @Document(collation = "action")
 public class Action {
     @Id
