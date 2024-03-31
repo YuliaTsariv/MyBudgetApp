@@ -2,8 +2,7 @@ package com.example.ProjectTestMySql.mapper;
 
 import com.example.ProjectTestMySql.model.dto.ActionPayload;
 import com.example.ProjectTestMySql.model.entity.Action;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
@@ -17,4 +16,9 @@ public interface ActionMapper {
     @Mapping(target = "userId", source = "actionPayload.userId")
     @Mapping(target = "groupName", source = "actionPayload.groupName")
     Action toAction(ActionPayload actionPayload, String dateTime);
+
+    ActionPayload toActionPayload(Action action);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+    void updateActionFromDto(ActionPayload actionPayload, @MappingTarget Action action);
 }

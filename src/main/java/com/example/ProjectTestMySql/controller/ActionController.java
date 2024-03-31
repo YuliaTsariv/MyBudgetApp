@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.ProjectTestMySql.controller.ActionController.API;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 
 @RequestMapping(API)
@@ -29,5 +30,19 @@ public class ActionController {
         log.info("Handle adding action request: " + actionPayload);
         var action = actionService.createAction(actionPayload);
         return ResponseEntity.ok(action);
+    }
+
+    @PatchMapping(ACTION)
+    public ResponseEntity<Void> updateAction(@RequestBody ActionPayload actionPayload) {
+        log.info("Handle updating action request: " + actionPayload);
+        actionService.updateAction(actionPayload);
+        return ResponseEntity.status(NO_CONTENT).build();
+    }
+
+    @DeleteMapping(ACTION)
+    public ResponseEntity<Void> deleteAction(@RequestParam Long id) {
+        log.info("Handle deleting group with id: " + id);
+        actionService.deleteAction(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -33,7 +33,7 @@ public class GroupController {
     }
 
     @PatchMapping(GROUP)
-    public ResponseEntity<Void> partialGroup(@RequestBody GroupPayload groupPayload) {
+    public ResponseEntity<Void> updateGroup(@RequestBody GroupPayload groupPayload) {
         log.info("Handle updating group request: " + groupPayload);
         groupService.updateGroup(groupPayload);
         return ResponseEntity.status(NO_CONTENT).build();
