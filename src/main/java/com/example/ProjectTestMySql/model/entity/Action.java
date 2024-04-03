@@ -1,8 +1,6 @@
 package com.example.ProjectTestMySql.model.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,10 +8,11 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
 
-@ToString
-@Setter
-@Getter
-@Document(collation = "action")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Document(collection = "action")
 public class Action {
     @Id
     Long id;
@@ -25,7 +24,7 @@ public class Action {
     Long userId;
 
     @Field(name = "date_time")
-    String dateTime;
+    String date;
 
     @Field(name = "amount_of_money")
     BigDecimal amountOfMoney;
@@ -39,6 +38,6 @@ public class Action {
         this.type = type;
         this.userId = userId;
         this.groupName = groupName;
-        this.dateTime = dateTime;
+        this.date = dateTime;
     }
 }

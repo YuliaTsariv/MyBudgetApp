@@ -1,5 +1,6 @@
 package com.example.ProjectTestMySql.service;
 
+import com.example.ProjectTestMySql.model.dto.BudgetPayload;
 import com.example.ProjectTestMySql.model.entity.Budget;
 import com.example.ProjectTestMySql.repository.BudgetRepository;
 import lombok.AccessLevel;
@@ -20,7 +21,8 @@ public class BudgetService {
         budgetRepository.save(myBudget);
     }
 
-    public void updateBudget(Budget myBudget){
-        budgetRepository.save(myBudget);
+    public BudgetPayload getBudget(Long userId) {
+        var budget =  budgetRepository.findByUserId(userId).orElseThrow();
+        return new BudgetPayload(budget.getUserId(), budget.getAccount());
     }
 }

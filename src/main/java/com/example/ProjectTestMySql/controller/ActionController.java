@@ -1,6 +1,7 @@
 package com.example.ProjectTestMySql.controller;
 
 import com.example.ProjectTestMySql.model.dto.ActionPayload;
+import com.example.ProjectTestMySql.model.dto.SearchActionRequest;
 import com.example.ProjectTestMySql.model.entity.Action;
 import com.example.ProjectTestMySql.service.ActionService;
 import lombok.RequiredArgsConstructor;
@@ -8,8 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.example.ProjectTestMySql.controller.ActionController.API;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 
 @RequestMapping(API)
@@ -32,11 +34,12 @@ public class ActionController {
         return ResponseEntity.ok(action);
     }
 
-    @PatchMapping(ACTION)
-    public ResponseEntity<Void> updateAction(@RequestBody ActionPayload actionPayload) {
-        log.info("Handle updating action request: " + actionPayload);
-        actionService.updateAction(actionPayload);
-        return ResponseEntity.status(NO_CONTENT).build();
+    @CrossOrigin(originPatterns = "*")
+    @GetMapping(ACTION)
+    public ResponseEntity<List<ActionPayload>> getAction(SearchActionRequest searchActionRequest) {
+        log.info("Handle search action request: " + searchActionRequest);
+        var actions = actionService.searchActions(searchActionRequest);
+        return ResponseEntity.ok(actions);
     }
 
     @DeleteMapping(ACTION)

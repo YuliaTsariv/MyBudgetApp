@@ -11,7 +11,6 @@ public interface GroupMapper {
 
     Group toGroup(GroupPayload groupPayload);
 
-    @Mapping(target = "groupType", source = "groupType")
     GroupPayload toGroupPayload(Group group);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
